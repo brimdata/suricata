@@ -292,7 +292,6 @@
             CFLAGS="${CFLAGS} -DOS_WIN32"
             LDFLAGS="${LDFLAGS} -lws2_32 -liphlpapi -lwbemuuid -lOle32 -lOleAut32 -lUuid"
             WINDOWS_PATH="yes"
-            PCAP_LIB_NAME="wpcap"
             AC_DEFINE([HAVE_NON_POSIX_MKDIR], [1], [mkdir is not POSIX compliant: single arg])
             RUST_SURICATA_LIBNAME="suricata.lib"
             RUST_LDADD="-luserenv -lshell32 -ladvapi32 -lgcc_eh"
