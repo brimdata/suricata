@@ -200,6 +200,8 @@ static inline void WinStrftime(const struct timeval *ts, const struct tm *t, cha
 {
     char time_fmt[64] = { 0 };
     char tz[6] = { 0 };
+    printf("_timezone = %d\n", _timezone);
+    printf("_daylight = %d\n", _daylight);
     const long int tzdiff = -_timezone;
     const int h = abs(_timezone) / 3600 + _daylight;
     const int m = (abs(_timezone) % 3600) / 60;
