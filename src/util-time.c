@@ -203,12 +203,19 @@ static inline void WinStrftime(const struct timeval *ts, const struct tm *t, cha
     printf("_timezone = %d\n", _timezone);
     printf("_daylight = %d\n", _daylight);
     const long int tzdiff = -_timezone;
+    printf("tzdiff = %ld\n", tzdiff);
     const int h = abs(_timezone) / 3600 + _daylight;
+    printf("h = %d\n", h);
     const int m = (abs(_timezone) % 3600) / 60;
+    printf("m = %d\n", m);
     snprintf(tz, sizeof(tz), "%c%02d%02d", tzdiff < 0 ? '-' : '+', h, m);
+    printf("tz = %s\n", tz);
     strftime(time_fmt, sizeof(time_fmt), "%Y-%m-%dT%H:%M:%S.%%06u", t);
+    printf("time_fmt = %s\n", time_fmt);
     snprintf(str, size, time_fmt, ts->tv_usec);
+    printf("str (before) = %s\n", str);
     strlcat(str, tz, size); // append our timezone
+    printf("str (after) = %s\n", str);
 }
 #endif
 
