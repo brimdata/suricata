@@ -198,13 +198,20 @@ void TimeSetIncrementTime(uint32_t tv_sec)
  */
 static inline void WinStrftime(const struct timeval *ts, const struct tm *t, char *str, size_t size)
 {
+    int h;
+
     char time_fmt[64] = { 0 };
     char tz[6] = { 0 };
     printf("_timezone = %d\n", _timezone);
     printf("_daylight = %d\n", _daylight);
     const long int tzdiff = -_timezone;
     printf("tzdiff = %ld\n", tzdiff);
-    const int h = abs(_timezone) / 3600 - _daylight;
+    printf("tzdiff = %ld\n", tzdiff);
+    if (tzdiff < 0) {
+        h = abs(_timezone) / 3600 - _daylight;
+    } else {
+        h = abs(_timezone) / 3600 + _daylight;
+    }
     printf("h = %d\n", h);
     const int m = (abs(_timezone) % 3600) / 60;
     printf("m = %d\n", m);
