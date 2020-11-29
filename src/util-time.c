@@ -210,7 +210,7 @@ static inline void WinStrftime(const struct timeval *ts, const struct tm *t, cha
     if (tzdiff < 0) {
         h = abs(_timezone) / 3600 - _daylight;
     } else {
-        h = abs(_timezone) / 3600 + _daylight;
+        h = abs(_timezone) / 3600;
     }
     printf("h = %d\n", h);
     const int m = (abs(_timezone) % 3600) / 60;
