@@ -292,7 +292,6 @@
             CFLAGS="${CFLAGS} -DOS_WIN32"
             WINDOWS_PATH="yes"
             AC_DEFINE([HAVE_NON_POSIX_MKDIR], [1], [mkdir is not POSIX compliant: single arg])
-            RUST_SURICATA_LIBNAME="suricata.lib"
             RUST_LDADD=" -lws2_32 -liphlpapi -lwbemuuid -lOle32 -lOleAut32 -lUuid -luserenv -lshell32 -ladvapi32 -lgcc_eh"
             ;;
         *-*-cygwin)
@@ -2405,10 +2404,11 @@ fi
     fi
 
     if test "x$enable_debug" = "xyes"; then
-      RUST_SURICATA_LIB="../rust/target/${RUST_SURICATA_LIB_XC_DIR}debug/${RUST_SURICATA_LIBNAME}"
+      RUST_SURICATA_LIBDIR="../rust/target/${RUST_SURICATA_LIB_XC_DIR}debug"
     else
-      RUST_SURICATA_LIB="../rust/target/${RUST_SURICATA_LIB_XC_DIR}release/${RUST_SURICATA_LIBNAME}"
+      RUST_SURICATA_LIBDIR="../rust/target/${RUST_SURICATA_LIB_XC_DIR}release"
     fi
+    RUST_SURICATA_LIB="${RUST_SURICATA_LIBDIR}/${RUST_SURICATA_LIBNAME}"
 
     RUST_LDADD="${RUST_SURICATA_LIB} ${RUST_LDADD}"
     CFLAGS="${CFLAGS} -I\${srcdir}/../rust/gen/c-headers"
@@ -2591,6 +2591,8 @@ AC_SUBST(CONFIGURE_SYSCONDIR)
 AC_SUBST(CONFIGURE_LOCALSTATEDIR)
 AC_SUBST(CONFIGURE_DATAROOTDIR)
 AC_SUBST(PACKAGE_VERSION)
+AC_SUBST(RUST_FEATURES)
+AC_SUBST(RUST_SURICATA_LIBDIR)
 
 AC_CONFIG_FILES(Makefile src/Makefile rust/Makefile rust/Cargo.toml rust/.cargo/config)
 AC_CONFIG_FILES(qa/Makefile qa/coccinelle/Makefile)
