@@ -48,6 +48,7 @@ struct tm *SCLocalTime(time_t timep, struct tm *result);
 void CreateTimeString(const struct timeval *ts, char *str, size_t size);
 void CreateIsoTimeString(const struct timeval *ts, char *str, size_t size);
 void CreateUtcIsoTimeString(const struct timeval *ts, char *str, size_t size);
+void CreateUtcIsoTimeStringBrim(const struct timeval *ts, char *str, size_t size);
 void CreateFormattedTimeString(const struct tm *t, const char * fmt, char *str, size_t size);
 time_t SCMkTimeUtc(struct tm *tp);
 int SCStringPatternToTime(char *string, const char **patterns,

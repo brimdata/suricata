@@ -210,25 +210,45 @@ static inline void WinStrftime(const struct timeval *ts, const struct tm *t, cha
 }
 #endif
 
+// Creates a UTC ISO string with microseconds. Adds a trailing 'Z'
+// (unlike CreateUtcIsoTimeString) to be valid ISO.
+void CreateUtcIsoTimeStringBrim (const struct timeval *ts, char *str, size_t size)
+{
+    time_t time = ts->tv_sec;
+    struct tm local_tm;
+    memset(&local_tm, 0, sizeof(local_tm));
+    struct tm *t = (struct tm*)SCUtcTime(time, &local_tm);
+    char time_fmt[64] = { 0 };
+
+    if (likely(t != NULL)) {
+        strftime(time_fmt, sizeof(time_fmt), "%Y-%m-%dT%H:%M:%S.%%06uZ", t);
+        snprintf(str, size, time_fmt, ts->tv_usec);
+    } else {
+        snprintf(str, size, "ts-error");
+    }
+}
+
 void CreateIsoTimeString (const struct timeval *ts, char *str, size_t size)
 {
+#ifdef OS_WIN32
+    CreateUtcIsoTimeStringBrim(ts, str, size);
+#else
+
     time_t time = ts->tv_sec;
     struct tm local_tm;
     memset(&local_tm, 0, sizeof(local_tm));
     struct tm *t = (struct tm*)SCLocalTime(time, &local_tm);
 
     if (likely(t != NULL)) {
-#ifdef OS_WIN32
-        WinStrftime(ts, t, str, size);
-#else
         char time_fmt[64] = { 0 };
         strftime(time_fmt, sizeof(time_fmt), "%Y-%m-%dT%H:%M:%S.%%06u%z", t);
         snprintf(str, size, time_fmt, ts->tv_usec);
-#endif
     } else {
         snprintf(str, size, "ts-error");
     }
+#endif
 }
+
 
 void CreateUtcIsoTimeString (const struct timeval *ts, char *str, size_t size)
 {
